@@ -14,7 +14,7 @@ export const nodeConfigs = {
 				idSuffix: "value",
 				style: {},
 			},
-			{ type: "source", position: Position.Left, idSuffix: "value", style: {} },
+			{ type: "target", position: Position.Left, idSuffix: "value", style: {} },
 		],
 	},
 	outputNode: {
