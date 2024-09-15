@@ -1,7 +1,7 @@
 import { Handle } from "reactflow";
 import { useState } from "react";
 
-const BaseNode = ({ id, data, label, inputs, handles }) => {
+const BaseNode = ({ id, data, label, inputs, handles, className }) => {
 	const [formData, setFormData] = useState(data || {});
 
 	const handleChange = (e, inputKey) => {
@@ -14,11 +14,12 @@ const BaseNode = ({ id, data, label, inputs, handles }) => {
 
 	return (
 		<div
+			className={className+"  "}
 			style={{
 				width: 200,
-				height: 100,
+				height: 150,
 				border: "1px solid black",
-				padding: 10,
+			
 			}}
 		>
 			<div>
@@ -58,6 +59,7 @@ const BaseNode = ({ id, data, label, inputs, handles }) => {
 					position={position}
 					id={`${id}-${idSuffix}`}
 					style={style}
+                    className=" text-4xl"
 				/>
 			))}
 		</div>

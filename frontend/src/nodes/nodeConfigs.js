@@ -3,6 +3,7 @@ import { Position } from "reactflow";
 export const nodeConfigs = {
 	inputNode: {
 		label: "Input Node",
+        className: " bg-green-300",
 		inputs: [
 			{ type: "text", key: "inputName", placeholder: "Enter name" },
 			{ type: "select", key: "inputType", options: ["Text", "File"] },
