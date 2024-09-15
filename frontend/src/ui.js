@@ -5,10 +5,11 @@ import { shallow } from "zustand/shallow";
 import "reactflow/dist/style.css";
 import { CreateNode } from "./nodes/CreateNode";
 import { nodeConfigs } from "./nodes/nodeConfigs";
+import { TextNode } from "./nodes/TextNode";
 
 const InputNode = CreateNode(nodeConfigs.inputNode);
 const OutputNode = CreateNode(nodeConfigs.outputNode);
-const TextNode = CreateNode(nodeConfigs.textNode);
+// const TextNode = TextNode;
 const LLMNode = CreateNode(nodeConfigs.llmNode);
 
 const gridSize = 20;
@@ -33,7 +34,15 @@ const selector = (state) => ({
 export const PipelineUI = () => {
 	const reactFlowWrapper = useRef(null);
 	const [reactFlowInstance, setReactFlowInstance] = useState(null);
-	const { nodes, edges, getNodeID, addNode, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
+	const {
+		nodes,
+		edges,
+		getNodeID,
+		addNode,
+		onNodesChange,
+		onEdgesChange,
+		onConnect,
+	} = useStore(selector, shallow);
 
 	const getInitNodeData = (nodeID, type) => {
 		return { id: nodeID, nodeType: type };
@@ -43,7 +52,9 @@ export const PipelineUI = () => {
 		(event) => {
 			event.preventDefault();
 			const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-			const appData = JSON.parse(event.dataTransfer.getData("application/reactflow") || "{}");
+			const appData = JSON.parse(
+				event.dataTransfer.getData("application/reactflow") || "{}"
+			);
 			const type = appData?.nodeType;
 
 			if (!type) return;

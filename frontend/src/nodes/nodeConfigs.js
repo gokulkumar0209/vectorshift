@@ -1,12 +1,12 @@
-import { Position } from "reactflow";
+import { Background, Position } from "reactflow";
 
 export const nodeConfigs = {
 	inputNode: {
 		label: "Input Node",
-        className: " bg-green-300",
+		className: " bg-green-200 w-48 h-56",
 		inputs: [
-			{ type: "text", key: "inputName", placeholder: "Enter name" },
-			{ type: "select", key: "inputType", options: ["Text", "File"] },
+			{ type: "text", key: "Input Name", placeholder: "Enter name" },
+			{ type: "select", key: "Input Type", options: ["Text", "File"] },
 		],
 		handles: [
 			{
@@ -15,14 +15,14 @@ export const nodeConfigs = {
 				idSuffix: "value",
 				style: {},
 			},
-			{ type: "target", position: Position.Left, idSuffix: "value", style: {} },
 		],
 	},
 	outputNode: {
 		label: "Output Node",
+		className : "w-48 h-56 bg-blue-200",
 		inputs: [
-			{ type: "text", key: "outputName", placeholder: "Enter output name" },
-			{ type: "select", key: "outputType", options: ["Text", "Image"] },
+			{ type: "text", key: "Output Name", placeholder: "Enter output name" },
+			{ type: "select", key: "Output Type", options: ["Text", "Image"] },
 		],
 		handles: [
 			{ type: "target", position: Position.Left, idSuffix: "value", style: {} },
@@ -43,6 +43,7 @@ export const nodeConfigs = {
 	llmNode: {
 		label: "LLM",
 		data: { title: "This is LLM" },
+		className:" w-48 h-28",
 		inputs: [],
 		handles: [
 			{
