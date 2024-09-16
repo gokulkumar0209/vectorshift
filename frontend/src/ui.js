@@ -6,7 +6,7 @@ import "reactflow/dist/style.css";  // Import React Flow CSS
 import { CreateNode } from "./nodes/CreateNode";
 import { nodeConfigs } from "./nodes/nodeConfigs";
 import { TextNode } from "./nodes/TextNode";
-import CustomEdge from "./CustomEdge";
+
 
 // Initialize nodes
 const InputNode = CreateNode(nodeConfigs.inputNode);
@@ -21,9 +21,6 @@ const nodeTypes = {
   customOutput: OutputNode,
   text: TextNode,
 };  // Define node types
-const edgeTypes = {
-  customEdge: CustomEdge,
-};  // Define custom edge types
 
 // Zustand selector to get state and functions from the store
 const selector = (state) => ({
@@ -107,7 +104,7 @@ export const PipelineUI = () => {
         nodeTypes={nodeTypes}  // Register custom node types
         proOptions={proOptions}  // Hide attribution
         snapGrid={[gridSize, gridSize]}  // Set grid size for snapping
-        edgeTypes={edgeTypes}  // Register custom edge types
+      // Register custom edge types
         connectionLineType="smoothstep"  // Define connection line type
       >
         <Background color="#aaa" gap={gridSize} />  {/* Render background grid */}

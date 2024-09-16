@@ -21,7 +21,7 @@ const BaseNode = ({ id, data, label, inputs, handles, className }) => {
 		edges,
 		getNodeID,
 		addNode,
-		onNodesChange,
+		onNodesChange, 
 		onEdgesChange,
 		onConnect,
 		onNodesDelete,
@@ -85,9 +85,9 @@ const BaseNode = ({ id, data, label, inputs, handles, className }) => {
 						type={type}
 						position={position}
 						id={`${id}-${idSuffix}`}
-						style={{ backgroundColor: type === 'source' ? 'green' : 'blue', ...style }}
+						style={{ backgroundColor: type === 'source' ? 'green ' : 'blue', ...style }}
 					>
-						<span className={`absolute ${position === Position.Left ? 'mr-2' : 'ml-2'}`}>{currName}</span>
+						<span className={`absolute ${position === Position.Left ? 'mr-2 right-0' : 'ml-2 left-0'}`}>{currName}</span>
 					</Handle>
 				</div>
 			))}
