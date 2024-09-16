@@ -1,23 +1,46 @@
 import { Handle, Position } from "reactflow";
 import { useState } from "react";
+import { useStore } from "../store";
+import { shallow } from "zustand/shallow";
+
+const selector = (state) => ({
+	nodes: state.nodes,
+	edges: state.edges,
+	getNodeID: state.getNodeID,
+	addNode: state.addNode,
+	onNodesChange: state.onNodesChange,
+	onEdgesChange: state.onEdgesChange,
+	onConnect: state.onConnect,
+	onNodesDelete: state.onNodesDelete,
+});
 
 const BaseNode = ({ id, data, label, inputs, handles, className }) => {
 	const [currName, setCurrName] = useState("");
+	const {
+		nodes,
+		edges,
+		getNodeID,
+		addNode,
+		onNodesChange, 
+		onEdgesChange,
+		onConnect,
+		onNodesDelete,
+	} = useStore(selector, shallow);
 
 	const handleChange = (e) => {
 		setCurrName(e.target.value);
 	};
 
+	const deleteNode = (e) => {
+		e.preventDefault();
+		onNodesDelete(id);
+	};
+
 	return (
-		<div
-			className={`${className}  rounded-lg shadow-lg p-4 `}
-		>
+		<div className={`${className} rounded-lg shadow-lg p-4`}>
 			<div className="font-bold text-center mb-2 flex justify-between items-center">
 				<span>{label}</span>
-				<h3
-					className="text-red-600 cursor-pointer"
-					onClick={() => console.log("Close button clicked")}
-				>
+				<h3 className="text-red-600 cursor-pointer" onClick={deleteNode}>
 					x
 				</h3>
 			</div>
@@ -58,30 +81,14 @@ const BaseNode = ({ id, data, label, inputs, handles, className }) => {
 
 			{handles.map(({ type, position, idSuffix, style }) => (
 				<div key={`${id}-${idSuffix}`} className="">
-					{position === Position.Left ? (
-						<>
-							<Handle
-								type={type}
-								position={Position.Left}
-								id={`${id}-${idSuffix}`}
-								style={{ backgroundColor: "green", ...style }}
-							>
-								<span className=" absolute right-0 mr-2 ">{currName}</span>
-							</Handle>
-						</>
-					) : (
-						<>
-							<Handle
-							
-								type={type}
-								position={Position.Right}
-								id={`${id}-${idSuffix}`}
-								style={{ backgroundColor: "blue", ...style }}
-							>
-								<span className=" absolute left-0 ml-2">{currName} </span>
-							</Handle>
-						</>
-					)}
+					<Handle
+						type={type}
+						position={position}
+						id={`${id}-${idSuffix}`}
+						style={{ backgroundColor: type === 'source' ? 'green ' : 'blue', ...style }}
+					>
+						<span className={`absolute ${position === Position.Left ? 'mr-2 right-0' : 'ml-2 left-0'}`}>{currName}</span>
+					</Handle>
 				</div>
 			))}
 		</div>
