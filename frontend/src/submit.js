@@ -1,6 +1,6 @@
 import React from "react";
 import { useStore } from "./store";
-import { shallow } from "zustand/shallow"; // For efficient state comparison
+import { shallow } from "zustand/shallow"; 
 
 const selector = (state) => ({
 	nodes: state.nodes,
@@ -26,7 +26,7 @@ export const SubmitButton = () => {
 	} = useStore(selector, shallow);
 	const handleSubmit = async () => {
 		try {
-			// Convert nodes and edges to JSON
+			
 			const response = await fetch("http://127.0.0.1:8000/pipelines/parse", {
 				method: "POST",
 				headers: {
@@ -38,7 +38,7 @@ export const SubmitButton = () => {
 			const result = await response.json();
 			const { num_nodes, num_edges, is_dag } = result;
 
-			// Display the result in an alert
+			
 			alert(
 				`Number of Nodes: ${num_nodes}\nNumber of Edges: ${num_edges}\nIs DAG: ${is_dag}`
 			);

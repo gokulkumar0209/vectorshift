@@ -66,23 +66,23 @@ export const useStore = create((set, get) => ({
 	onNodesDelete: (idToDelete) => {
 		const { nodes, edges } = get();
 
-		// Filter out the node to be deleted
+		
 		const remainingNodes = nodes.filter((node) => node.id !== idToDelete);
 
-		// Get the node to be deleted
+		
 		const nodeToDelete = nodes.find((node) => node.id === idToDelete);
 
-		if (!nodeToDelete) return; // If node not found, exit
+		if (!nodeToDelete) return; 
 
-		// Get connected edges
+		
 		const connectedEdges = getConnectedEdges([nodeToDelete], edges);
 
-		// Remove connected edges
+		
 		const remainingEdges = edges.filter(
 			(edge) => !connectedEdges.includes(edge)
 		);
 
-		// Update the state with remaining nodes and edges
+		
 		set({
 			nodes: remainingNodes,
 			edges: remainingEdges,

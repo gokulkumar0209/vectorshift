@@ -1,116 +1,126 @@
 import { useState, useRef, useCallback } from "react";
 import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
-import { useStore } from "./store";  // Zustand store for state management
-import { shallow } from "zustand/shallow"; // For efficient state comparison
-import "reactflow/dist/style.css";  // Import React Flow CSS
+import { useStore } from "./store"; 
+import { shallow } from "zustand/shallow"; 
+import "reactflow/dist/style.css"; 
 import { CreateNode } from "./nodes/CreateNode";
 import { nodeConfigs } from "./nodes/nodeConfigs";
 import { TextNode } from "./nodes/TextNode";
-
 
 // Initialize nodes
 const InputNode = CreateNode(nodeConfigs.inputNode);
 const OutputNode = CreateNode(nodeConfigs.outputNode);
 const LLMNode = CreateNode(nodeConfigs.llmNode);
+const Temp1 = CreateNode(nodeConfigs.temp1);
+const Temp2 = CreateNode(nodeConfigs.temp2);
+const Temp3 = CreateNode(nodeConfigs.temp3);
+const Temp4 = CreateNode(nodeConfigs.temp4);
+const Temp5 = CreateNode(nodeConfigs.temp5);
 
-const gridSize = 20;  // Grid size for snap
-const proOptions = { hideAttribution: true };  // Hide ReactFlow attribution
+
+const proOptions = { hideAttribution: true }; 
 const nodeTypes = {
-  customInput: InputNode,
-  llm: LLMNode,
-  customOutput: OutputNode,
-  text: TextNode,
-};  // Define node types
+	customInput: InputNode,
+	llm: LLMNode,
+	customOutput: OutputNode,
+	text: TextNode,
+	temp1: Temp1,
+	temp2: Temp2,
+	temp3: Temp3,
+	temp4: Temp4,
+	temp5: Temp5,
+}; // Define node types
 
-// Zustand selector to get state and functions from the store
+
 const selector = (state) => ({
-  nodes: state.nodes,
-  edges: state.edges,
-  getNodeID: state.getNodeID,
-  addNode: state.addNode,
-  onNodesChange: state.onNodesChange,
-  onEdgesChange: state.onEdgesChange,
-  onConnect: state.onConnect,
-  removeEdge: state.removeEdge,
+	nodes: state.nodes,
+	edges: state.edges,
+	getNodeID: state.getNodeID,
+	addNode: state.addNode,
+	onNodesChange: state.onNodesChange,
+	onEdgesChange: state.onEdgesChange,
+	onConnect: state.onConnect,
+	removeEdge: state.removeEdge,
 });
 
 export const PipelineUI = () => {
-  const reactFlowWrapper = useRef(null);  // Ref to store React Flow instance
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);  // State for React Flow instance
-  const {
-    nodes,
-    edges,
-    getNodeID,
-    addNode,
-    onNodesChange,
-    onEdgesChange,
-    onConnect,
-    removeEdge,
-  } = useStore(selector, shallow);  // Zustand store functions and state
+	const reactFlowWrapper = useRef(null); 
+	const [reactFlowInstance, setReactFlowInstance] = useState(null); 
+	const {
+		nodes,
+		edges,
+		getNodeID,
+		addNode,
+		onNodesChange,
+		onEdgesChange,
+		onConnect,
+		removeEdge,
+	} = useStore(selector, shallow); 
 
-  // Helper function to initialize node data
-  const getInitNodeData = (nodeID, type) => ({ id: nodeID, nodeType: type });
+	const getInitNodeData = (nodeID, type) => ({ id: nodeID, nodeType: type });
 
-  // Get node position for drop event
-  const getNodePosition = (event, reactFlowBounds, reactFlowInstance) => ({
-    x: event.clientX - reactFlowBounds.left,
-    y: event.clientY - reactFlowBounds.top,
-  });
+	const getNodePosition = (event, reactFlowBounds, reactFlowInstance) => ({
+		x: event.clientX - reactFlowBounds.left,
+		y: event.clientY - reactFlowBounds.top,
+	});
 
-  // Create a new node object
-  const createNewNode = (type, nodeID, position) => ({
-    id: nodeID,
-    type,
-    position,
-    data: getInitNodeData(nodeID, type),
-  });
+	const createNewNode = (type, nodeID, position) => ({
+		id: nodeID,
+		type,
+		position,
+		data: getInitNodeData(nodeID, type),
+	});
 
-  // Handle node drop event
-  const onDrop = useCallback(
-    (event) => {
-      event.preventDefault();
-      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();  // Get flow bounds
-      const appData = JSON.parse(event.dataTransfer.getData("application/reactflow") || "{}");
-      const type = appData?.nodeType;
+	const onDrop = useCallback(
+		(event) => {
+			event.preventDefault();
+			const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect(); // Get flow bounds
+			const appData = JSON.parse(
+				event.dataTransfer.getData("application/reactflow") || "{}"
+			);
+			const type = appData?.nodeType;
 
-      if (!type) return;  // If node type doesn't exist, return
+			if (!type) return; 
 
-      const position = getNodePosition(event, reactFlowBounds, reactFlowInstance);  // Get node position
-      const nodeID = getNodeID(type);  // Get a unique node ID
-      const newNode = createNewNode(type, nodeID, position);  // Create new node
+			const position = getNodePosition(
+				event,
+				reactFlowBounds,
+				reactFlowInstance
+			); 
+			const nodeID = getNodeID(type); 
+			const newNode = createNewNode(type, nodeID, position); 
 
-      addNode(newNode);  // Add node to the state
-    },
-    [getNodeID, addNode, reactFlowInstance]  // Dependencies
-  );
+			addNode(newNode); 
+		},
+		[getNodeID, addNode, reactFlowInstance] 
+	);
 
-  // Handle drag over event
-  const onDragOver = useCallback((event) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "move";  // Set drop effect to move
-  }, []);
+	
+	const onDragOver = useCallback((event) => {
+		event.preventDefault();
+		event.dataTransfer.dropEffect = "move"; 
+	}, []);
 
-  return (
-    <div ref={reactFlowWrapper} style={{ width: "100vw", height: "70vh" }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}  // Handle node changes
-        onEdgesChange={onEdgesChange}  // Handle edge changes
-        onConnect={onConnect}  // Handle new connection
-        onDrop={onDrop}  // Handle drop
-        onDragOver={onDragOver}  // Handle drag over
-        onInit={setReactFlowInstance}  // Set instance of React Flow
-        nodeTypes={nodeTypes}  // Register custom node types
-        proOptions={proOptions}  // Hide attribution
-        snapGrid={[gridSize, gridSize]}  // Set grid size for snapping
-      // Register custom edge types
-        connectionLineType="smoothstep"  // Define connection line type
-      >
-        <Background color="#aaa" gap={gridSize} />  {/* Render background grid */}
-        <Controls />  {/* Render controls for zoom and pan */}
-        <MiniMap />  {/* Render mini map for navigation */}
-      </ReactFlow>
-    </div>
-  );
+	return (
+		<div ref={reactFlowWrapper} style={{ width: "100vw", height: "70vh" }}>
+			<ReactFlow
+				nodes={nodes}
+				edges={edges}
+				onNodesChange={onNodesChange} 
+				onEdgesChange={onEdgesChange} 
+				onConnect={onConnect} 
+				onDrop={onDrop} 
+				onDragOver={onDragOver} 
+				onInit={setReactFlowInstance} 
+				nodeTypes={nodeTypes}
+				
+				
+				connectionLineType="smoothstep" 
+			>
+				<Background  />
+				<Controls />
+				<MiniMap /> 
+			</ReactFlow>
+		</div>
+	);
 };

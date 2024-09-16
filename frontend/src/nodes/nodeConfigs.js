@@ -13,10 +13,11 @@ export const nodeConfigs = {
 				type: "source",
 				position: Position.Right,
 				idSuffix: "value",
-				style: { backgroundColor: "green" },
+				
 			},
 		],
 	},
+
 	outputNode: {
 		label: "Output Node",
 		className: "bg-blue-200 w-48 h-56 rounded-lg shadow-lg",
@@ -29,7 +30,7 @@ export const nodeConfigs = {
 				type: "target",
 				position: Position.Left,
 				idSuffix: "value",
-				style: { backgroundColor: "blue" },
+				
 			},
 		],
 	},
@@ -57,6 +58,139 @@ export const nodeConfigs = {
 				position: Position.Right,
 				idSuffix: "output1",
 				style: { top: "50%" },
+			},
+		],
+	},
+
+	temp1: {
+		label: "Temp 1",
+		className: "bg-indigo-200 w-48 h-56 rounded-lg shadow-lg",
+		inputs: [
+			{ type: "text", key: "Input Name", placeholder: "Enter name" },
+			{ type: "select", key: "Input Type", options: ["Text", "File"] },
+		],
+		handles: [
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+			
+			},
+			{
+				type: "target",
+				position: Position.Left,
+				idSuffix: "value",
+			
+			},
+		],
+	},
+
+	temp2: {
+		label: "Temp 2",
+		className: "bg-cyan-200 w-48 h-56 rounded-lg shadow-lg",
+		inputs: [
+			{ type: "text", key: "Input Name", placeholder: "Enter name" },
+			{ type: "select", key: "Input Type", options: ["Text", "File"] },
+		],
+		handles: [
+			{
+				type: "target",
+				position: Position.Left,
+				idSuffix: "value",
+				style:{top:"33%"}
+			},
+			{
+				type: "target",
+				position: Position.Left,
+				idSuffix: "value",
+				style:{top:"66%"}
+			},
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+				style:{top:"50%"}
+			},
+		],
+	},
+
+	temp3: {
+		label: "Temp 3",
+		className: "bg-teal-200 w-48 h-56 rounded-lg shadow-lg",
+		inputs: [
+			{ type: "text", key: "Input Name", placeholder: "Enter name" },
+			{ type: "select", key: "Input Type", options: ["Text", "File"] },
+		],
+		handles: [
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+				
+			},
+			{
+				type: "target",
+				position: Position.Left,
+				idSuffix: "value",
+				style:{top:"50%"}
+			},
+		],
+	},
+
+	temp4: {
+		label: "Temp 4",
+		className: "bg-lime-200 w-48 h-56 rounded-lg shadow-lg",
+		inputs: [
+			{ type: "text", key: "Input Name", placeholder: "Enter name" },
+			{ type: "select", key: "Input Type", options: ["Text", "File"] },
+		],
+		handles: [
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+				style:{top:"33%"}
+			},
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+				style:{top:"66%"}
+			},
+			{
+				type: "target",
+				position: Position.Left,
+				idSuffix: "value",
+				style:{top:"50%"}
+			},
+		],
+	},
+
+	temp5: {
+		label: "Temp 5",
+		className: "bg-stone-200 w-48 h-56 rounded-lg shadow-lg",
+		inputs: [
+			{ type: "text", key: "Input Name", placeholder: "Enter name" },
+			{ type: "select", key: "Input Type", options: ["Text", "File"] },
+		],
+		handles: [
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+				style:{top:"25%"}
+			},
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+				style:{top:"50%"}
+			},
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+				style:{top:"75%"}
 			},
 		],
 	},
