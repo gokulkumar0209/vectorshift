@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
 export const TextNode = ({ id, data }) => {
@@ -7,27 +7,23 @@ export const TextNode = ({ id, data }) => {
   const [height, setHeight] = useState(80);
   const [variableHandles, setVariableHandles] = useState([]);
 
-  // Regular expression to detect variables inside {{ }}
   const variableRegex = /\{\{\s*(\w+)\s*\}\}/g;
 
-  // Function to handle text input change and dynamic resizing
   const handleTextChange = (e) => {
     const value = e.target.value;
     setCurrText(value);
 
-    // Dynamically adjust width and height based on text length and line breaks
-    const newWidth = Math.min(400, 200 + value.length * 5); // Width grows with text length
-    const newHeight = Math.min(300, 80 + value.split('\n').length * 20); // Height adjusts with line breaks
+    const newWidth = Math.min(400, 200 + value.length * 5);
+    const newHeight = Math.min(300, 80 + value.split('\n').length * 20);
     setWidth(newWidth);
     setHeight(newHeight);
 
-    // Find variables within the text (e.g., {{input}})
     const variables = [...value.matchAll(variableRegex)].map((match) => match[1]);
     setVariableHandles(variables);
   };
 
   return (
-    <div style={{ width: width, height: height, border: '1px solid black', padding: '10px' }}>
+    <div style={{ width, height, border: '1px solid black', padding: '10px' }}>
       <div>
         <span>Text</span>
       </div>
@@ -42,23 +38,20 @@ export const TextNode = ({ id, data }) => {
           />
         </label>
       </div>
-      {/* Default Output Handle */}
       <Handle
         type="source"
         position={Position.Right}
         id={`${id}-output`}
       />
-
-      {/* Dynamic Variable Handles for each {{variable}} found */}
       {variableHandles.map((variable, index) => (
         <Handle
           key={`${id}-${variable}`}
           type="target"
           position={Position.Left}
           id={`${id}-${variable}`}
-          style={{ top: `${(index + 1) * 20}px` }} // Adjust position based on index
+          style={{ top: `${(index + 1) * 20}px` }}
         />
       ))}
     </div>
   );
-}
+};

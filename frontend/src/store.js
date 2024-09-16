@@ -1,5 +1,3 @@
-// store.js
-
 import { create } from "zustand";
 import {
 	addEdge,
@@ -7,13 +5,12 @@ import {
 	applyEdgeChanges,
 	MarkerType,
 	getConnectedEdges,
-	getIncomers,
-	getOutgoers,
 } from "reactflow";
 
 export const useStore = create((set, get) => ({
 	nodes: [],
 	edges: [],
+	nodeIDs: {},
 	getNodeID: (type) => {
 		const newIDs = { ...get().nodeIDs };
 		if (newIDs[type] === undefined) {
@@ -43,12 +40,17 @@ export const useStore = create((set, get) => ({
 			edges: addEdge(
 				{
 					...connection,
-					type: "smoothstep",
+					type: "custom",
 					animated: true,
 					markerEnd: { type: MarkerType.Arrow, height: "20px", width: "20px" },
 				},
 				get().edges
 			),
+		});
+	},
+	removeEdge: (edgeId) => {
+		set({
+			edges: get().edges.filter((edge) => edge.id !== edgeId),
 		});
 	},
 	updateNodeField: (nodeId, fieldName, fieldValue) => {
@@ -57,7 +59,6 @@ export const useStore = create((set, get) => ({
 				if (node.id === nodeId) {
 					node.data = { ...node.data, [fieldName]: fieldValue };
 				}
-
 				return node;
 			}),
 		});
