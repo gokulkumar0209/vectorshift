@@ -1,6 +1,6 @@
 import React from "react";
 import { useStore } from "./store";
-import { shallow } from "zustand/shallow"; 
+import { shallow } from "zustand/shallow";
 
 const selector = (state) => ({
 	nodes: state.nodes,
@@ -26,7 +26,6 @@ export const SubmitButton = () => {
 	} = useStore(selector, shallow);
 	const handleSubmit = async () => {
 		try {
-			
 			const response = await fetch("http://127.0.0.1:8000/pipelines/parse", {
 				method: "POST",
 				headers: {
@@ -38,7 +37,6 @@ export const SubmitButton = () => {
 			const result = await response.json();
 			const { num_nodes, num_edges, is_dag } = result;
 
-			
 			alert(
 				`Number of Nodes: ${num_nodes}\nNumber of Edges: ${num_edges}\nIs DAG: ${is_dag}`
 			);
@@ -56,7 +54,11 @@ export const SubmitButton = () => {
 				justifyContent: "center",
 			}}
 		>
-			<button type="button" onClick={handleSubmit}>
+			<button
+				type="button"
+				onClick={handleSubmit}
+				className=" bg-green-800 text-white font-bold px-4 py-2 rounded-lg"
+			>
 				Submit
 			</button>
 		</div>

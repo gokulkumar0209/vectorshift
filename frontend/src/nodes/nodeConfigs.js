@@ -194,4 +194,26 @@ export const nodeConfigs = {
 			},
 		],
 	},
+	temp6: {
+		label: "Temp 6",
+		className: "bg-teal-200 w-48 h-56 rounded-lg shadow-lg",
+		inputs: [
+			{ type: "text", key: "Input Name", placeholder: "Enter name" },
+			{ type: "select", key: "Input Type", options: ["Text", "File"] },
+		],
+		handles: [
+			{
+				type: "source",
+				position: Position.Right,
+				idSuffix: "value",
+				
+			},
+			{
+				type: "target",
+				position: Position.Left,
+				idSuffix: "value",
+				style:{top:"50%"}
+			},
+		],
+	},
 };

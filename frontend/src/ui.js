@@ -16,6 +16,7 @@ const Temp2 = CreateNode(nodeConfigs.temp2);
 const Temp3 = CreateNode(nodeConfigs.temp3);
 const Temp4 = CreateNode(nodeConfigs.temp4);
 const Temp5 = CreateNode(nodeConfigs.temp5);
+const Temp6= CreateNode(nodeConfigs.temp6)
 
 
 const proOptions = { hideAttribution: true }; 
@@ -29,6 +30,7 @@ const nodeTypes = {
 	temp3: Temp3,
 	temp4: Temp4,
 	temp5: Temp5,
+  temp6: Temp6,
 }; // Define node types
 
 

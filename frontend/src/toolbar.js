@@ -24,6 +24,7 @@ export const PipelineToolbar = () => {
 				<DraggableNode type="temp3" label="Temp 3" />
 				<DraggableNode type="temp4" label="Temp 4" />
 				<DraggableNode type="temp5" label="Temp 5" />
+				<DraggableNode type="temp6" label="Temp 6" />
 			</div>
 		</div>
 	);
