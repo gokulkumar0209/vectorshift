@@ -29,32 +29,26 @@ async def parse_pipeline(pipeline: PipelineData):
     num_edges = len(edges)
     
     def is_dag(nodes, edges):
-        graph={}
-        degree = {}
+        adj_list = defaultdict(list)
+        in_degree = defaultdict(int)
         
         for edge in edges:
             u = edge['source']
             v = edge['target']
-            if u not in graph:
-                graph[u]=[]
-            graph[u].append(v)
-            degree[v] += 1
-            if u not in degree:
-                degree[u] = 0
+            adj_list[u].append(v)
+            in_degree[v] += 1
+            if u not in in_degree:
+                in_degree[u] = 0
         
-        queue = deque()
-        for node in nodes:
-            node_id=node['id']
-            if degree[node_id]==0:
-                queue.append(node_id)
+        queue = deque([node['id'] for node in nodes if in_degree[node['id']] == 0])
         count = 0
         
         while queue:
             node = queue.popleft()
             count += 1
-            for neighbor in graph[node]:
-                degree[neighbor] -= 1
-                if degree[neighbor] == 0:
+            for neighbor in adj_list[node]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
                     queue.append(neighbor)
         
         return count == len(nodes)
